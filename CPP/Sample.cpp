@@ -1,32 +1,55 @@
 #include<iostream>
-#include<string>
-#include<vector>
+#include<limits.h>
+#define R 3
+#define C 3
 using namespace std;
-void swap(char *a,char *b)
+int min(int x, int y, int z);
+ 
+int minCost(int cost[R][C], int m, int n)
 {
-    char swap=*a;
-    *a=*b;
-    *b=swap;
+     int i, j;
+ 
+     // Instead of following line, we can use int tc[m+1][n+1] or
+     // dynamically allocate memory to save space. The following line is
+     // used to keep the program simple and make it working on all compilers.
+     int tc[R][C]; 
+ 
+     tc[0][0] = cost[0][0];
+ 
+     /* Initialize first column of total cost(tc) array */
+     for (i = 1; i <= m; i++)
+        tc[i][0] = tc[i - 1][0] + cost[i][0];
+ 
+     /* Initialize first row of tc array */
+     for (j = 1; j <= n; j++)
+        tc[0][j] = tc[0][j - 1] + cost[0][j];
+ 
+     /* Construct rest of the tc array */
+     for (i = 1; i <= m; i++)
+        for (j = 1; j <= n; j++)
+            tc[i][j] = min(tc[i - 1][j - 1],
+                           tc[i - 1][j],
+                           tc[i][j - 1]) + cost[i][j];
+ 
+     return tc[m][n];
 }
-void permute(string str,int l,int r)
+ 
+/* A utility function that returns minimum of 3 integers */
+int min(int x, int y, int z)
 {
-    if(l==r)
-    {
-        cout<<str<<endl;
-        return;
-    }
-    else
-    {
-        for(int i=l;i<r;i++)
-        {
-            swap(&str[l],&str[i]);
-            permute(str,l+1,r);
-            swap(&str[l],&str[i]);
-        }
-    }
+   if (x < y)
+      return (x < z)? x : z;
+   else
+      return (y < z)? y : z;
 }
-int main(){
-    string str="123";
-    permute(str,0,str.length());
-    return 0;
+ 
+/* Driver code*/
+int main()
+{
+   int cost[R][C] = { {1, 3, 1},
+                      {1, 5, 1},
+                      {4, 2, 1} };
+   cout << "  " << minCost(cost, 2, 2);
+   return 0;
 }
+ 

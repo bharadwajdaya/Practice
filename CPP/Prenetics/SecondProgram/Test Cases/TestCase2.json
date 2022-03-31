@@ -1,0 +1,9 @@
+[
+    {
+        "employeName": "Test1",
+        "checkinTime": "9:00",
+        "checkouttime": "24:00",
+        "date": "2022-03-05",
+        "dept": "QA"
+    }
+]

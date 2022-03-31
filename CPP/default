@@ -1,0 +1,7 @@
+g++ -std=c++11 spiral_matrix.cpp 
+
+select * from (select e.*,RANK() over(partition by product_id order by salary desc) as Rank_Number from employee e) t where t.Rank_number=1;
+
+select name,dept,salary, nth-value(employee_name,2) over(partition by dept order by salary desc range between 
+unbounded preceding and unbounded following ) second high from basic_pay;
+
